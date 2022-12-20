@@ -21,10 +21,10 @@
           <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#insurance_details">Check for Fraud</a>
+                <a class="nav-link" href="/insuranceForm">Check for Fraud</a>
               </li>
             </ul>
           </div>
@@ -33,7 +33,7 @@
     
 
       <!-- details model -->
-      <div class="modal fade" id="insurance_details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="insurance_details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 100%;" scrollable="True">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -42,69 +42,7 @@
             </div>
             <div class="modal-body">
              <!-- Signup form -->
-                <form action="/usrsignup" method="POST">
-                  {% csrf_token %}
-                    <div class="row mb-3">
-                        <label for="username" class="col-sm-3 col-form-label">User Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" required placeholder="User Name ,Only digits and alphabets" name="username" >
-                        </div>
-                      </div>
-                    <div class="row mb-3">
-                        <label for="fname" class="col-sm-3 col-form-label">First Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" required placeholder="First Name" name="fname">
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="lname" class="col-sm-3 col-form-label">Last Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" required placeholder="Last Name" name="lname">
-                        </div>
-                      </div>
-                    <div class="row mb-3">
-                      <label for="email" class="col-sm-3 col-form-label">Email</label>
-                      <div class="col-sm-9">
-                        <input type="email" class="form-control" required placeholder="abc@xyz.com" name="email">
-                      </div>
-                    </div>
-                    <!-- <div class="row mb-3">
-                        <label for="mblno" class="col-sm-3 col-form-label">Mobile No</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" required placeholder="mobile no" name="mblno">
-                        </div>
-                      </div> -->
-                    <fieldset class="row mb-3">
-                        <legend class="col-form-label col-sm-2 pt-0">Category</legend>
-                        <div class="col-sm-10">
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="category" id="gridRadios1" value="1" >
-                            <label class="form-check-label" for="gridRadios1">
-                              Organiser
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="radio" name="category" id="gridRadios2" value="0" checked>
-                            <label class="form-check-label" for="gridRadios2">
-                              User
-                            </label>
-                          </div>
-                        </div>
-                      </fieldset>
-                    <div class="row mb-3">
-                      <label for="password" class="col-sm-3 col-form-label">Password</label>
-                      <div class="col-sm-9">
-                        <input type="password" class="form-control" required placeholder="Password atleast 8 in length" name="password">
-                      </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="cpassword" class="col-sm-3 col-form-label">Confirm Password</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" required placeholder="Confirm Password" name="cpassword">
-                        </div>
-                      </div>
-                    <button type="submit" class="btn btn-primary align-right">Sign up</button>
-                  </form>
+                
             </div>
           </div>
         </div>

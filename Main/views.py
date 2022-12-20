@@ -23,6 +23,52 @@ def home(request):
     x_scaled=get_input(premodel)
     a=model.predict(x_scaled)
     return render(request,"home.html",{'a':a})
+
+def getInsureFormDetails(request):
+    hobbies=['sleeping', 'reading', 'board-games', 'bungie-jumping',
+       'base-jumping', 'golf', 'camping', 'dancing', 'skydiving',
+       'movies', 'hiking', 'yachting', 'paintball', 'chess', 'kayaking',
+       'polo', 'basketball', 'video-games', 'cross-fit', 'exercise']
+    occupations=['craft-repair', 'machine-op-inspct', 'sales', 'armed-forces',
+       'tech-support', 'prof-specialty',
+       'priv-house-serv', 'exec-managerial', 'protective-serv',
+       'transport-moving', 'handlers-cleaners', 'adm-clerical',
+       'farming-fishing', 'other-service']
+    educationList=['MD', 'PhD', 'Associate', 'Masters', 'High School', 'College',
+       'JD']
+    relationList=['husband', 'other-relative', 'own-child', 'unmarried', 'wife',
+       'not-in-family']
+    incidentType=['Single Vehicle Collision', 'Vehicle Theft',
+       'Multi-vehicle Collision', 'Parked Car']
+    collosionType=['Side Collision', 'Rear Collision', 'Front Collision']
+    incidentSevierity=['Major Damage', 'Minor Damage', 'Total Loss', 'Trivial Damage']
+    authoritiesContacted=['Police', 'Fire', 'Ambulance',  'Other','None']
+    incidentCity=['Columbus', 'Riverwood', 'Arlington', 'Springfield', 'Hillsdale',
+       'Northbend', 'Northbrook']
+    incidentState=['SC', 'VA', 'NY', 'OH', 'WV', 'NC', 'PA']
+    propertyDamage=['YES', 'NO']
+    policeReportAvailable=['YES', 'NO']
+    autoMakers=['Saab', 'Mercedes', 'Dodge', 'Chevrolet', 'Accura', 'Nissan',
+       'Audi', 'Toyota', 'Ford', 'Suburu', 'BMW', 'Jeep', 'Honda',
+       'Volkswagen']
+    autoModel=['92x', 'E400', 'RAM', 'Tahoe', 'RSX', '95', 'Pathfinder', 'A5',
+       'Camry', 'F150', 'A3', 'Highlander', 'Neon', 'MDX', 'Maxima',
+       'Legacy', 'TL', 'Impreza', 'Forrestor', 'Escape', 'Corolla',
+       '3 Series', 'C300', 'Wrangler', 'M5', 'X5', 'Civic', 'Passat',
+       'Silverado', 'CRV', '93', 'Accord', 'X6', 'Malibu', 'Fusion',
+       'Jetta', 'ML350', 'Ultima', 'Grand Cherokee']
+    autoYears=[i for i in range(1995,2023)]
+    incidentHourOfDay=[i for i in range(0,24)]
+    data={'hobbies':hobbies,"occupations":occupations,"educationList":educationList,"relationList":relationList,"incidentType":incidentType,
+            'collosionType':collosionType,"incidentSevierity":incidentSevierity,"authoritiesContacted":authoritiesContacted,"incidentCity":incidentCity,
+            "incidentState":incidentState,"incidentHourOfDay":incidentHourOfDay,"propertyDamage":propertyDamage,"policeReportAvailable":policeReportAvailable,
+            "autoMakers":autoMakers,"autoModel":autoModel,"autoYears":autoYears}
+    return render(request,"InsuranceForm.html",data)
+
+def makePrediction(request):
+    
+    return render(request,"prediction.html")
+
 def preprocess(df):
     df['fraud_reported'].replace(to_replace='Y', value=1, inplace=True)
     df['fraud_reported'].replace(to_replace='N',  value=0, inplace=True)
