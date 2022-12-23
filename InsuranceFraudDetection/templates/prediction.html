@@ -1,4 +1,29 @@
 {%extends 'base.html'%}
 {%block content%}
-<h1>hello </h1>
-{%endblock%}
+<!-- <h1>hello... {{data}} </h1> -->
+<div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">S No</th>
+        <th scope="col">Policy Number</th>
+        <th scope="col">Fraud Status</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+        <tr >
+            <td>{{d.Sno}}</td>
+            <td>{{d.polNo}}</td>
+            {%if d.pred%}
+            <td>Mostly Suspicious</td>
+            {%else%}
+            <td>Mostly Genuine</td>
+            {%endif%}
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{%endblock%}  

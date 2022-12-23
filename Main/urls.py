@@ -6,4 +6,5 @@ urlpatterns = [
     path('home',views.home, name='home'),
     path('insuranceForm',views.getInsureFormDetails, name="insuranceForm"),
     path('makePrediction',views.makePrediction, name="makePrediction"),
+    path('fileUpload',views.fileUpload,name="fileUpload"),
 ]

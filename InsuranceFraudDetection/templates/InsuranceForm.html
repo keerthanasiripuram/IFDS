@@ -37,7 +37,7 @@
             <div class="row mb-3">
                 <label for="policy_deductable" class="col-sm-3 col-form-label">Policy Deductable</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="policy_deductable">
+                    <select class="form-select" required aria-label="Default select example" name="policy_deductable">
                         <option selected>Select a policy deductable</option>
                         <option value="500"> 500</option>
                         <option value="1000">1000</option>
@@ -55,7 +55,7 @@
             <div class="row mb-3">
                 <label for="insured_sex" class="col-sm-3 col-form-label">Insured Zip</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="insured_sex">
+                    <select class="form-select" required aria-label="Default select example" name="insured_sex">
                         <option selected>Select a policy deductable</option>
                         <option value="FEMALE"> FEMALE </option>
                         <option value="MALE"> MALE </option>
@@ -66,7 +66,7 @@
             <div class="row mb-3">
                 <label for="insured_occupation" class="col-sm-3 col-form-label">Occupation of Insured</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="insured_education_level">
+                    <select class="form-select" required aria-label="Default select example" id="" name="insured_occupation">
                         <option selected>Select the insured occupation</option>
                         {% for occupation in occupations%}
                         <option value="{{occupation}}"> {{occupation}}</option>
@@ -77,7 +77,7 @@
             <div class="row mb-3">
                 <label for="insured_relationship" class="col-sm-3 col-form-label">insured_relationship</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="insured_relationship">
+                    <select class="form-select" required aria-label="Default select example" name="insured_relationship">
                         <option selected>Select Insured Relationship</option>
                         {% for optn in relationList %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -95,7 +95,7 @@
             <div class="row mb-3">
                 <label for="incident_type" class="col-sm-3 col-form-label">incident_type</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="incident_type">
+                    <select class="form-select" required aria-label="Default select example" name="incident_type">
                         <option selected>Select Incident Type</option>
                         {% for optn in incidentType %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -106,7 +106,7 @@
             <div class="row mb-3">
                 <label for="incident_severity" class="col-sm-3 col-form-label">Incident Severity</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="incident_severity">
+                    <select class="form-select" required aria-label="Default select example" name="incident_severity">
                         <option selected>Select Incident Severity</option>
                         {% for optn in incidentSevierity %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -117,7 +117,7 @@
             <div class="row mb-3">
                 <label for="incident_state" class="col-sm-3 col-form-label">incident_state</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="incident_state">
+                    <select class="form-select" required aria-label="Default select example" name="incident_state">
                         <option selected>Select the Incident State</option>
                         {% for optn in incidentState %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -128,7 +128,7 @@
             <div class="row mb-3">
                 <label for="incident_location" class="col-sm-3 col-form-label">incident_location</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" required placeholder="User Name ,Only digits and alphabets"
+                    <input type="text"  class="form-control" required placeholder="User Name ,Only digits and alphabets"
                         name="incident_location">
                 </div>
             </div>
@@ -136,21 +136,21 @@
                 <label for="number_of_vehicles_involved"
                     class="col-sm-3 col-form-label">number_of_vehicles_involved</label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" required
+                    <input type="number"  class="form-control" required
                         placeholder="User Name ,Only digits and alphabets" name="number_of_vehicles_involved">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="bodily_injuries" class="col-sm-3 col-form-label">bodily_injuries</label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" required
+                    <input type="number"  class="form-control" required
                         placeholder="User Name ,Only digits and alphabets" name="bodily_injuries">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="police_report_available" class="col-sm-3 col-form-label">police_report_available</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="police_report_available">
+                    <select class="form-select" required aria-label="Default select example" name="police_report_available">
                         <option selected>Select the Incident City</option>
                         {% for optn in propertyDamage %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -176,7 +176,7 @@
             <div class="row mb-3">
                 <label for="auto_model" class="col-sm-3 col-form-label">auto_model</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="auto_model">
+                    <select class="form-select" required aria-label="Default select example" name="auto_model">
                         <option selected>Select the Auto Maker</option>
                         {% for optn in autoModel %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -204,7 +204,7 @@
             <div class="row mb-3">
                 <label for="policy_csl" class="col-sm-3 col-form-label">Policy Csl</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="policy_csl">
+                    <select class="form-select" required aria-label="Default select example" name="policy_csl">
                         <option selected>Select a policy csl</option>
                         <option value="250/500"> 250/500</option>
                         <option value="100/300">100/300</option>
@@ -230,7 +230,7 @@
             <div class="row mb-3">
                 <label for="insured_education_level" class="col-sm-3 col-form-label">insured_education_level</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="insured_education_level">
+                    <select class="form-select" required aria-label="Default select example" name="insured_education_level">
                         <option selected>Select a policy deductable</option>
                         {% for education in educationList%}
                         <option value="{{education}}"> {{education}}</option>
@@ -241,7 +241,7 @@
             <div class="row mb-3">
                 <label for="insured_hobbies" class="col-sm-3 col-form-label">insured_hobbies</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="insured_hobbies">
+                    <select class="form-select" required aria-label="Default select example" name="insured_hobbies">
                         <option selected>Select Insured Hobby</option>
                         {% for optn in hobbies %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -253,7 +253,7 @@
                 <label for="capital_gains" class="col-sm-3 col-form-label">capital-gains</label>
                 <div class="col-sm-9">
                     <input type="number" class="form-control" required
-                        placeholder="User Name ,Only digits and alphabets" name="capital-gains">
+                        placeholder="User Name ,Only digits and alphabets" name="capital_gains">
                 </div>
             </div>
             <div class="row mb-3">
@@ -266,7 +266,7 @@
             <div class="row mb-3">
                 <label for="collision_type" class="col-sm-3 col-form-label">collision_type</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="collision_type">
+                    <select class="form-select" required aria-label="Default select example" name="collision_type">
                         <option selected>Select Collosion Type</option>
                         {% for optn in collosionType %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -278,7 +278,7 @@
             <div class="row mb-3">
                 <label for="authorities_contacted" class="col-sm-3 col-form-label">Authority Contacted</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="authorities_contacted">
+                    <select class="form-select" required aria-label="Default select example" name="authorities_contacted">
                         <option selected>Select the Authority contacted</option>
                         {% for optn in authoritiesContacted %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -289,7 +289,7 @@
             <div class="row mb-3">
                 <label for="incident_city" class="col-sm-3 col-form-label">incident_city</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="incident_city">
+                    <select class="form-select" required aria-label="Default select example" name="incident_city">
                         <option selected>Select the Incident City</option>
                         {% for optn in incidentCity %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -300,7 +300,7 @@
             <div class="row mb-3">
                 <label for="incident_hour_of_the_day" class="col-sm-3 col-form-label">incident_hour_of_the_day</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="incident_hour_of_the_day">
+                    <select class="form-select" required aria-label="Default select example" name="incident_hour_of_the_day">
                         <option selected>Select the incident hour in the day</option>
                         {% for optn in incidentHourOfDay %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -311,7 +311,7 @@
             <div class="row mb-3">
                 <label for="property_damage" class="col-sm-3 col-form-label">property_damage</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="property_damage">
+                    <select class="form-select" required aria-label="Default select example" name="property_damage">
                         <option selected>Select the Property Damage</option>
                         {% for optn in propertyDamage %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -344,7 +344,7 @@
             <div class="row mb-3">
                 <label for="auto_make" class="col-sm-3 col-form-label">auto_make</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="auto_make">
+                    <select class="form-select" required aria-label="Default select example" name="auto_make">
                         <option selected>Select the Auto Maker</option>
                         {% for optn in autoMakers %}
                         <option value="{{optn}}">{{optn}}</option>
@@ -355,7 +355,7 @@
             <div class="row mb-3">
                 <label for="auto_year" class="col-sm-3 col-form-label">auto_year</label>
                 <div class="col-sm-9">
-                    <select class="form-select" aria-label="Default select example" name="auto_year">
+                    <select class="form-select" required aria-label="Default select example" name="auto_year">
                         <option selected>Select the Auto Manufactured Year</option>
                         {% for optn in autoYears %}
                         <option value="{{optn}}">{{optn}}</option>

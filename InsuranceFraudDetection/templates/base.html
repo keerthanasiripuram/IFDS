@@ -21,10 +21,13 @@
           <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="">Home</a>
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/insuranceForm">Check for Fraud</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#insurance_file_upload">Upload a file</a>
               </li>
             </ul>
           </div>
@@ -33,16 +36,25 @@
     
 
       <!-- details model -->
-      <div class="modal fade" id="insurance_details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 100%;" scrollable="True">
+      <div class="modal fade" id="insurance_file_upload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 100%;" scrollable="True">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Enter Insurance Details</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Upload a File</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
              <!-- Signup form -->
-                
+             <form action="/fileUpload" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+                <div class="row mb-3">
+                    <label for="insurance_file" class="col-sm-3 col-form-label">Upload File</label>
+                    <div class="col-sm-9">
+                      <input type="file" class="form-control" placeholder="User Name" name="insurance_file" id="insurance_file" required>
+                    </div>
+                  </div>
+                <button type="submit" class="btn btn-primary align-right position-end">Sign in</button>
+              </form>
             </div>
           </div>
         </div>

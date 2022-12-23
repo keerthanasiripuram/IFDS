@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
-
+from django.core.files.storage import default_storage
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 import pandas as pd
 # from matplotlib import pyplot as plt
 # import seaborn as sns
@@ -19,10 +21,10 @@ pd.set_option('display.max_rows', 500)
 
 # Create your views here.
 def home(request):
-    model,premodel=get_model()
-    x_scaled=get_input(premodel)
-    a=model.predict(x_scaled)
-    return render(request,"home.html",{'a':a})
+    # model,premodel=get_model()
+    # x_scaled=get_input(premodel)
+    # a=model.predict(x_scaled)
+    return render(request,"home.html")
 
 def getInsureFormDetails(request):
     hobbies=['sleeping', 'reading', 'board-games', 'bungie-jumping',
@@ -66,8 +68,104 @@ def getInsureFormDetails(request):
     return render(request,"InsuranceForm.html",data)
 
 def makePrediction(request):
-    
-    return render(request,"prediction.html")
+    if request.method=="POST":
+        # form = ThoughtForm(request.POST)
+        months_as_customer=int(request.POST["months_as_customer"])
+        policy_number=int(request.POST["policy_number"])
+        policy_state=request.POST["policy_state"]
+        policy_deductable=int(request.POST["policy_deductable"])
+        umbrella_limit=int(request.POST["umbrella_limit"])
+        insured_sex=request.POST["insured_sex"]
+        insured_occupation=request.POST["insured_occupation"]
+        insured_relationship=request.POST["insured_relationship"]
+        capital_loss=-1*int(request.POST["capital_loss"])
+        incident_type=request.POST["incident_type"]
+        incident_severity=request.POST["incident_severity"]
+        incident_state=request.POST["incident_state"]
+        incident_location=request.POST["incident_location"]
+        number_of_vehicles_involved=int(request.POST["number_of_vehicles_involved"])
+        bodily_injuries=int(request.POST["bodily_injuries"])
+        police_report_available=request.POST["police_report_available"]
+        injury_claim=int(request.POST["injury_claim"])
+        vehicle_claim=int(request.POST["vehicle_claim"])
+        auto_model=request.POST["auto_model"]
+        age=int(request.POST["age"])
+        policy_bind_date=request.POST["policy_bind_date"]
+        policy_csl=request.POST["policy_csl"]
+        policy_annual_premium=float(request.POST["policy_annual_premium"])
+        insured_zip=int(request.POST["insured_zip"])
+        insured_education_level=request.POST["insured_education_level"]
+        insured_hobbies=request.POST["insured_hobbies"]
+        capital_gains=int(request.POST["capital_gains"])
+        incident_date=request.POST["incident_date"]
+        collision_type=request.POST["collision_type"]
+        authorities_contacted=request.POST["authorities_contacted"]
+        incident_city=request.POST["incident_city"]
+        incident_hour_of_the_day=int(request.POST["incident_hour_of_the_day"])
+        property_damage=request.POST["property_damage"]
+        witnesses=int(request.POST["witnesses"])
+        total_claim_amount=int(request.POST["total_claim_amount"])
+        property_claim=int(request.POST["property_claim"])
+        auto_make=request.POST["auto_make"]
+        auto_year=int(request.POST["auto_year"])
+        _c39=float(request.POST["_c39"])
+        fraud_reported="-"
+        data={
+            "months_as_customer":months_as_customer,
+            "age":age,
+            "policy_number":policy_number,
+            "policy_bind_date":policy_bind_date,
+            "policy_state":policy_state,
+            "policy_csl":policy_csl,
+            "policy_deductable":policy_deductable,
+            "policy_annual_premium":policy_annual_premium,
+            "umbrella_limit":umbrella_limit,
+            "insured_zip":insured_zip,
+            "insured_sex":insured_sex,
+            "insured_education_level":insured_education_level,
+            "insured_occupation":insured_occupation,
+            "insured_hobbies":insured_hobbies,
+            "insured_relationship":insured_relationship,
+            "capital-gains":capital_gains,
+            "capital-loss":capital_loss,
+            "incident_date":incident_date,
+            "incident_type":incident_type,
+            "collision_type":collision_type,
+            "incident_severity":incident_severity,
+            "authorities_contacted":authorities_contacted,
+            "incident_state":incident_state,
+            "incident_city":incident_city,
+            "incident_location":incident_location,
+            "incident_hour_of_the_day":incident_hour_of_the_day,
+            "number_of_vehicles_involved":number_of_vehicles_involved,
+            "property_damage":property_damage,
+            "bodily_injuries":bodily_injuries,
+            "witnesses":witnesses,
+            "police_report_available":police_report_available,
+            "total_claim_amount":total_claim_amount,
+            "injury_claim":injury_claim,
+            "property_claim":property_claim,
+            "vehicle_claim":vehicle_claim,
+            "auto_make":auto_make,
+            "auto_model":auto_model,
+            "auto_year":auto_year,
+            "fraud_reported":fraud_reported,
+            "_c39":_c39
+        }    
+        inputdata=pd.DataFrame(data,index=[0])
+        
+        pred=predict(inputdata) 
+        data=[]
+        for i in range(len(pred)):
+            data.append({"Sno":i+1,"polNo":policy_number,"pred":pred[i]==1})
+        # pred="" 
+        # print("--------------------------------------------------",data['policy_bind_date']) 
+    return render(request,"prediction.html",{"data":data})
+def predict(data):
+    model,premodel=get_model()
+    data=preProcessIP(data,premodel)
+    pred=model.predict(data)
+    return pred
 
 def preprocess(df):
     df['fraud_reported'].replace(to_replace='Y', value=1, inplace=True)
@@ -145,6 +243,7 @@ def label_Encodeing_Scaling(X,dummies,df):
     X['police_report_available'].replace(to_replace='?', value=0, inplace=True)
     X = X.drop(columns = ['collision_type'])
     X = pd.concat([X, df._get_numeric_data()], axis=1)
+    # print("-------------------------------------------------------------------------------------","fraud_reported" in X.columns)
     X = X.drop(columns = ['fraud_reported'])
     scaler = StandardScaler(with_mean=False)
     X_train_scaled = scaler.fit_transform(X)
@@ -162,16 +261,53 @@ def get_model():
     y = dummies.iloc[:, -1] 
     X_scaled=label_Encodeing_Scaling(X,dummies,df)
     lda = LinearDiscriminantAnalysis()
-    lda.fit(X_scaled,y)
+    lda.fit(X_scaled,y) 
     return lda,premodel
 
-def get_input(premodel):
-    ip = pd.read_csv('Main/new data.csv')
+# def fileUpload(request):
+#     pic=request.FILES['insurance_file']
+#     # img=FileUpload(insurance_file=pic)
+#     file_name=default_storage.save(pic.name,pic)
+#     file=default_storage.open(file_name)
+def fileUpload(request):
+    folder='insurance_files/' 
+    if request.method == 'POST' and request.FILES['insurance_file']:
+        myfile = request.FILES['insurance_file']
+        fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT  
+        import datetime;
+        ct = datetime.datetime.now()
+        filename = fs.save(myfile.name, myfile)
+        print(filename)
+        file_url = fs.url(filename)
+        print(file_url) 
+        data=predectFromFile(filename)
+        
+         
+        return render(request, 'prediction.html',{"data":data})
+    else:
+         return render(request, 'upload.html')
+def predectFromFile(filename):
+    model,premodel=get_model()
+    x_scaled,ip=get_input(premodel,filename)  
+    pred=model.predict(x_scaled)
+    polNO=list(ip['policy_number'])
+    data=[]
+    for i in range(len(pred)):
+        data.append({"Sno":i+1,"polNo":polNO[i],"pred":pred[i]==1})
+    return data 
+def preProcessIP(ip,premodel):
     ip=preprocess(ip)
+    # print("__________________________________________________________________________________________________",ip['fraud_reported'])
     dummies=transform_OneHotModel(premodel,ip)
-    X = dummies.iloc[:, 0:-1]
+    # print("---------------------------------------------------------------------------------------------------------",dummies['fraud_reported'])
+    X = dummies.iloc[:, 0:]
+    # print("-------------------------------------------------------------------------------------","fraud_reported" in X.columns)
+
     X_scaled=label_Encodeing_Scaling(X,dummies,ip)
     return X_scaled
+def get_input(premodel,filename):
+    ip=pd.read_csv('insurance_files/'+filename) 
+    return preProcessIP(ip,premodel),ip
     
 
     
