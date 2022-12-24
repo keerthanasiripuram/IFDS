@@ -1,29 +1,12 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
-from django.contrib import messages
-from django.core.files.storage import default_storage
-from django.conf import settings
+from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 import pandas as pd
-# from matplotlib import pyplot as plt
-# import seaborn as sns
-# from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-import numpy as np
-# import sklearn.metrics
-# from pylab import rcParams
-
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.max_rows', 500)
 
 # Create your views here.
 def home(request):
-    # model,premodel=get_model()
-    # x_scaled=get_input(premodel)
-    # a=model.predict(x_scaled)
     return render(request,"home.html")
 
 def getInsureFormDetails(request):
@@ -69,7 +52,6 @@ def getInsureFormDetails(request):
 
 def makePrediction(request):
     if request.method=="POST":
-        # form = ThoughtForm(request.POST)
         months_as_customer=int(request.POST["months_as_customer"])
         policy_number=int(request.POST["policy_number"])
         policy_state=request.POST["policy_state"]
@@ -153,14 +135,12 @@ def makePrediction(request):
             "_c39":_c39
         }    
         inputdata=pd.DataFrame(data,index=[0])
-        
         pred=predict(inputdata) 
         data=[]
         for i in range(len(pred)):
-            data.append({"Sno":i+1,"polNo":policy_number,"pred":pred[i]==1})
-        # pred="" 
-        # print("--------------------------------------------------",data['policy_bind_date']) 
+            data.append({"Sno":i+1,"polNo":policy_number,"pred":pred[i]!=1})
     return render(request,"prediction.html",{"data":data})
+
 def predict(data):
     model,premodel=get_model()
     data=preProcessIP(data,premodel)
@@ -208,6 +188,7 @@ def returnOneHotEncObj(df):
         'csl_per_accident',
         'incident_period_of_day']])
     return premodel
+    
 def transform_OneHotModel(premodel,df):
     dummies=pd.DataFrame(premodel.transform(df[[
         'policy_state', 
@@ -232,6 +213,7 @@ def transform_OneHotModel(premodel,df):
         'police_report_available', 
         "fraud_reported"]])
     return dummies
+
 def label_Encodeing_Scaling(X,dummies,df):
     X['collision_en'] = LabelEncoder().fit_transform(dummies['collision_type'])
     X[['collision_type', 'collision_en']]
@@ -243,7 +225,6 @@ def label_Encodeing_Scaling(X,dummies,df):
     X['police_report_available'].replace(to_replace='?', value=0, inplace=True)
     X = X.drop(columns = ['collision_type'])
     X = pd.concat([X, df._get_numeric_data()], axis=1)
-    # print("-------------------------------------------------------------------------------------","fraud_reported" in X.columns)
     X = X.drop(columns = ['fraud_reported'])
     scaler = StandardScaler(with_mean=False)
     X_train_scaled = scaler.fit_transform(X)
@@ -264,28 +245,19 @@ def get_model():
     lda.fit(X_scaled,y) 
     return lda,premodel
 
-# def fileUpload(request):
-#     pic=request.FILES['insurance_file']
-#     # img=FileUpload(insurance_file=pic)
-#     file_name=default_storage.save(pic.name,pic)
-#     file=default_storage.open(file_name)
 def fileUpload(request):
     folder='insurance_files/' 
     if request.method == 'POST' and request.FILES['insurance_file']:
         myfile = request.FILES['insurance_file']
         fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT  
-        import datetime;
-        ct = datetime.datetime.now()
         filename = fs.save(myfile.name, myfile)
-        print(filename)
-        file_url = fs.url(filename)
-        print(file_url) 
         data=predectFromFile(filename)
         
          
         return render(request, 'prediction.html',{"data":data})
     else:
-         return render(request, 'upload.html')
+         return render(request, 'home.html')
+
 def predectFromFile(filename):
     model,premodel=get_model()
     x_scaled,ip=get_input(premodel,filename)  
@@ -293,18 +265,16 @@ def predectFromFile(filename):
     polNO=list(ip['policy_number'])
     data=[]
     for i in range(len(pred)):
-        data.append({"Sno":i+1,"polNo":polNO[i],"pred":pred[i]==1})
+        data.append({"Sno":i+1,"polNo":polNO[i],"pred":pred[i]!=1})
     return data 
+
 def preProcessIP(ip,premodel):
     ip=preprocess(ip)
-    # print("__________________________________________________________________________________________________",ip['fraud_reported'])
     dummies=transform_OneHotModel(premodel,ip)
-    # print("---------------------------------------------------------------------------------------------------------",dummies['fraud_reported'])
     X = dummies.iloc[:, 0:]
-    # print("-------------------------------------------------------------------------------------","fraud_reported" in X.columns)
-
     X_scaled=label_Encodeing_Scaling(X,dummies,ip)
     return X_scaled
+
 def get_input(premodel,filename):
     ip=pd.read_csv('insurance_files/'+filename) 
     return preProcessIP(ip,premodel),ip
