@@ -49,7 +49,7 @@ def getInsureFormDetails(request):
             "incidentState":incidentState,"incidentHourOfDay":incidentHourOfDay,"propertyDamage":propertyDamage,"policeReportAvailable":policeReportAvailable,
             "autoMakers":autoMakers,"autoModel":autoModel,"autoYears":autoYears}
     return render(request,"InsuranceForm.html",data)
-
+ 
 def makePrediction(request):
     if request.method=="POST":
         months_as_customer=int(request.POST["months_as_customer"])
@@ -188,7 +188,7 @@ def returnOneHotEncObj(df):
         'csl_per_accident',
         'incident_period_of_day']])
     return premodel
-    
+
 def transform_OneHotModel(premodel,df):
     dummies=pd.DataFrame(premodel.transform(df[[
         'policy_state', 
