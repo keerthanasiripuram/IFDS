@@ -138,7 +138,7 @@ def makePrediction(request):
         pred=predict(inputdata) 
         data=[]
         for i in range(len(pred)):
-            data.append({"Sno":i+1,"polNo":policy_number,"pred":pred[i]!=1})
+            data.append({"Sno":i+1,"polNo":policy_number,"pred":pred[i]==1})
     return render(request,"prediction.html",{"data":data})
 
 def predict(data):
