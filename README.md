@@ -1,4 +1,4 @@
-** Insurance Fraud Detection System using Machine Learning **
+**Insurance Fraud Detection System using Machine Learning**
 
 <img width="600" alt="insurance-1" src="https://github.com/19N01A05A0/IFDS/assets/98584553/e5b4e9da-884f-489d-a889-074b2c90b27c">
 
